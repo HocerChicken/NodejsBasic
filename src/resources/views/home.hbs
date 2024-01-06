@@ -1,1 +1,16 @@
-<h1>HOME PAGE</h1>
+<div class="mt-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+            {{#each courses}}
+             <div class="col">
+                <div class="card" style=" margin-top: 16px">
+                    <img src="{{this.image}}" class="card-img-top" alt="{{this.image}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.name}}</h5>
+                        <p class="card-text">{{this.description}}</p>
+                        <a href="#" class="btn btn-primary">Mua Khoa hoc</a>
+                    </div>
+                </div>
+             </div>
+            {{/each}}
+    </div>
+</div>
