@@ -14,9 +14,9 @@ const port = 3000;
 // Use static folder
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
-    express.urlencoded({
-        extended: true,
-    })
+  express.urlencoded({
+    extended: true,
+  })
 );
 app.use(express.json());
 // HTTP logger
@@ -24,10 +24,13 @@ app.use(express.json());
 
 //set up view engine
 app.engine(
-    "hbs",
-    engine({
-        extname: ".hbs",
-    })
+  "hbs",
+  engine({
+    extname: ".hbs",
+    helpers: {
+      sum: (a, b) => a + b,
+    },
+  })
 );
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "resources", "views"));
@@ -36,5 +39,5 @@ app.set("views", path.join(__dirname, "resources", "views"));
 route(app);
 
 app.listen(port, () =>
-    console.log(`App listening on http://localhost:${port}/`)
+  console.log(`App listening on http://localhost:${port}/`)
 );
