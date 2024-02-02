@@ -1,5 +1,5 @@
-<a href="/me/trash/courses">Thùng rác</a>
-<h2 class="mt-4">Khóa học của tôi</h2>
+<a href="/me/stored/courses">Danh sách khóa học</a>
+<h2 class="mt-4">Khóa học đã xóa</h2>
 <table class="table mt-4">
   <thead>
     <tr>
@@ -18,13 +18,13 @@
       <td>{{this.level}}</td>
       <td>{{this.createdAt}}</td>
       <td>
-        <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
-        <a href="" class="btn btn-link" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#delete-course-modal">Xóa</a>
+        <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>
+        <a href="" class="btn btn-link" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#delete-course-modal">Xóa vĩnh viễn</a>
       </td>
     </tr>
     {{else}}
     <tr class="text-center">
-      <td colspan="5">Bạn chưa thêm khóa học nào. <a href="/courses/create">Thêm tại đây</a></td>
+      <td colspan="5">Không có khóa học nào ở đây</td>
     </tr>
     {{/each}}
   </tbody>
@@ -57,6 +57,7 @@
   let deleteModal = document.getElementById('delete-course-modal')
   let btnDelete = document.getElementById("btn-delete");
   let courseId;
+  let restoreBtn = document.querySelectorAll(".btn-restore")
   // when dialog confirm clicked
   deleteModal.addEventListener('show.bs.modal', function (event) {
     let button = event.relatedTarget;
@@ -68,5 +69,13 @@
     let form = document.forms["delete-course-form"];
     form.action = "/courses/" + courseId + "/?_method=delete";
     form.submit();
+  })
+
+  //when restore button clicked
+  restoreBtn.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log(this.getAttribute('data-id'));
+    });
   })
 </script>
