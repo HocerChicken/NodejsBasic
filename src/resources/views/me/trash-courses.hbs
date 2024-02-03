@@ -24,7 +24,7 @@
     </tr>
     {{else}}
     <tr class="text-center">
-      <td colspan="5">Không có khóa học nào ở đây</td>
+      <td colspan="5">Thùng rác trống. <a href="/me/stored/courses">Danh sách khóa học</a></td>
     </tr>
     {{/each}}
   </tbody>
@@ -39,18 +39,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Bạn có chắc muốn xóa khóa học này?</p>
+        <p>Hành động này không thể khôi phục. Bạn vẫn muốn xóa khóa học này?</p>
       </div>
       <div class="modal-footer">
-        <button id="btn-delete" type="button" class="btn btn-danger">Xác nhận</button>
+        <button id="btn-delete" type="button" class="btn btn-danger">Xóa vĩnh viễn</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
       </div>
     </div>
   </div>
 </div>
 
-{{!-- hidden delete form --}}
 <form id="delete-course-form" method="POST">
+</form>
+<form id="restore-course-form" method="POST">
 </form>
 
 <script>
@@ -58,6 +59,8 @@
   let btnDelete = document.getElementById("btn-delete");
   let courseId;
   let restoreBtn = document.querySelectorAll(".btn-restore")
+  let deleteForm = document.forms["delete-course-form"];
+  let restoreForm = document.forms["restore-course-form"];
   // when dialog confirm clicked
   deleteModal.addEventListener('show.bs.modal', function (event) {
     let button = event.relatedTarget;
@@ -66,16 +69,17 @@
 
   // when delete course button clicked
   btnDelete.addEventListener('click', function () {
-    let form = document.forms["delete-course-form"];
-    form.action = "/courses/" + courseId + "/?_method=delete";
-    form.submit();
+    deleteForm.action = "/courses/" + courseId + "/force/?_method=DELETE";
+    deleteForm.submit();
   })
 
   //when restore button clicked
   restoreBtn.forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
-      console.log(this.getAttribute('data-id'));
+      let courseId = this.getAttribute('data-id');
+      restoreForm.action = "/courses/" + courseId + "/restore/?_method=PATCH";
+      restoreForm.submit();
     });
   })
 </script>
